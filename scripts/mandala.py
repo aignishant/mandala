@@ -275,13 +275,14 @@ def cmd_status(args) -> None:
     nxt = next((d for d, fm in days if fm.get("status", "not-started") == "not-started"), None)
     if nxt is not None:
         fm = by_day[nxt]
+        ids = ", ".join(parse_ids(fm.get("ids", ""))) or "infrastructure"
         print(f"  ⬜ next up:     Day {nxt} — {fm.get('title', '')}")
-        print(f"                 IDs: {', '.join(parse_ids(fm.get('ids', ''))) or 'infrastructure'}")
+        print(f"                 IDs: {ids}")
         print(f"                 ./m start {nxt}")
     print()
 
     phases: dict[str, list[str]] = {}
-    for d, fm in days:
+    for _day, fm in days:
         phases.setdefault(fm.get("phase", "?"), []).append(fm.get("status", "not-started"))
     print("  phase  done/total")
     for phase in sorted(phases, key=lambda p: int(p) if p.isdigit() else 99):

@@ -80,7 +80,7 @@ built on Day 0 and explained line by line in
 
 | Day | Title | IDs | Kind | Status |
 |---|---|---|---|---|
-| [1](../days/day-01/LESSON.md) | Foundry I — the repo, the pins, the three free keys | infra · P4 · P5 | lab | ⬜ |
+| [1](../days/day-01/LESSON.md) | Foundry I — the repo, the pins, the three free keys | infra · P4 · P5 | lab | 🟨 |
 | [2](../days/day-02/LESSON.md) | Foundry II — CI, quality gates, and the docs machine | infra · P7 · P13 | gate 🎯 | ⬜ |
 
 ## Phase 1 — Days 3–8 — Agents from first principles
