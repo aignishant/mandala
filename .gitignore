@@ -1,4 +1,14 @@
-.claude
-.venv
+# secrets — this line must exist before .env does
 .env
-CLAUDE.md
+
+# python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# project artifacts
+*.sqlite
+*.sqlite3
+.langgraph_api/
