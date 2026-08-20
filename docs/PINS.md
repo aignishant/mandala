@@ -61,6 +61,8 @@
 | 4 | `uv add "pydantic==2.13.4"` |
 | 6 | `uv add "tenacity==9.1.4"` |
 | 9 | `uv add "openai-agents[litellm]==0.22.0"` |
+| 15 | `uv add "ddgs==9.15.0"` |
+| 16 | `uv add "mcp==2.0.0"` *(OAI-15's first mount — stdio transport only)* |
 | 17 | `uv add "rich==15.0.0"` |
 | 19 | `uv add "docker==7.2.0"` *(and install Docker Desktop)* |
 | 20 | `uv add "temporalio==1.31.0"` |
@@ -70,7 +72,7 @@
 | 43 | `uv add "langgraph==1.2.11"` |
 | 46 | `uv add "sentence-transformers==6.0.0" "numpy==2.5.2"` |
 | 47 | `uv add "langgraph-checkpoint-sqlite==3.1.1"` |
-| 53 | `uv add "mcp==2.0.0" "httpx==0.28.1"` |
+| 53 | `uv add "httpx==0.28.1"` *(`mcp` already installed on Day 16)* |
 | 68 | `uv add "playwright==1.62.0"` |
 | 73 | `uv add "langsmith==0.11.1"` |
 | 75 | `uv add "opentelemetry-sdk==1.44.0" "opentelemetry-exporter-otlp==1.44.0"` |

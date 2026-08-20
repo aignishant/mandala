@@ -1125,6 +1125,10 @@ Written **2026-08-20** against `openai-agents` **0.22.0**.
   the model call produces — a **generation** span or a **response** span. `model_calls()` in
   `span_tree.py` matches on `"Generation"`, and if your provider produces the other kind, your count
   is silently zero. **Check this before you trust any number you write in the CHECKLIST.**
+  **Do not defer this one.** `model_calls()` stops being a curiosity on **Day 18**, where the whole
+  round-trip measurement — the number you will quote in an interview — is computed from it. A
+  silently-zero counter there looks like a spectacular result rather than a bug. Fix the matcher
+  today, on the day you can still see it is wrong.
 - If any of the above differs from this lesson: log one line in `docs/CHANGELOG_PLAN.md`. If a whole
   mechanism has moved, stop and write an addendum first (Principle 14).
 
