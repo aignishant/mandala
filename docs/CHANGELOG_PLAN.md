@@ -7,6 +7,94 @@
 
 ---
 
+## 2026-08-21 — Days 31–42 written; one ledger fix (Principles 4, 14)
+
+**Generated** `days/day-31/` … `days/day-42/` (Phase 5 remainder: CR-16…CR-22; Phase 6 complete:
+LC-01…LC-14), each with `LESSON.md` + `CHECKLIST.md`. Lab scaffolds stay deferred to `/day NN`.
+`./m check-ids` orphan count drops accordingly; `./m sync` now sees 42 days.
+
+⚠️ **Ledger fix — `langgraph` pulled forward from Day 43 to Day 42.** Plan-internal, not ecosystem
+drift. **LC-13** (Day 42) reads *"`create_agent` returns a graph: drop it into a larger `StateGraph`
+as a node"* — which imports `langgraph` directly. The ledger added it on Day 43. Worse, `langchain`
+already installs `langgraph` **transitively** (that is what `create_agent` compiles to, as Day 38's
+`what_is_it.py` shows), so the package is present and **unpinned** — precisely what Principle 4
+forbids: *"every package is version-pinned in pyproject.toml. Never rely on framework defaults."*
+An unpinned transitive `langgraph` moves whenever `langchain` bumps.
+**Fixed:** ledger row moved to Day 42; `days/day-42/LESSON.md` §1 makes the amendment the day's
+first task and states it is overrulable. Day 43's teaching is unchanged — only the row moved.
+**Overrule this** if you would rather Day 42 demonstrate the seam without a direct `StateGraph`;
+that removes most of LC-13, so it is a curriculum change and should be recorded as one.
+
+**Open items surfaced while writing these days** (each is stated in the lesson that found it, not
+silently adapted):
+
+| Item | Raised by | Needed before |
+|---|---|---|
+| Does class-level `@persist` checkpoint after **every** step? The Day-32 cost argument depends on it. | Day 32 §3.1 | Day 32's lab |
+| Does 1.15.17 resume from a checkpoint **by default**, or is it gated? (CR-18's correctness fix.) | Day 32 §4.3 | Day 32's lab |
+| Does CrewAI 1.15.17 have a **built-in** human-feedback step, or is pause-and-raise idiomatic? | Day 33 §8 | Day 33's lab |
+| Is `FlowDefinition` validation genuinely at **load** time? The whole Day-34 comparison rests on it. | Day 34 §3.3 | Day 34's write-up |
+| Which structured-output strategy do the LangChain adapters use — native, tool-call, or a second request? It is a **budget** question. | Day 38 §4.1 | Day 38's ledger entry |
+| What is `create_agent`'s iteration-cap parameter called in 1.3.16? | Day 38 §3.3 | Day 38's lab |
+| Is `pytest-asyncio` needed for Day 40's tests? If added → ledger row + changelog line. | Day 40 §8 | Day 40's tests |
+| Does `deepagents` default to a model when `model=` is omitted? Zero-budget hazard if so. | Day 41 §8 | Day 41's lab |
+
+---
+
+## 2026-08-20 — Day 1 pin re-verification + one ledger fix (Principles 4, 13, 14)
+
+**Method.** The §3 PyPI loop from `days/day-01/LESSON.md` was run against the live JSON API for all
+twelve core packages plus `ruff`, `pytest` and `python-dotenv`, and compared line by line with
+`docs/PINS.md`.
+
+- **Nil report — 13 of 15 unchanged.** `openai` 3.3.1, `python-dotenv` 1.2.3, `openai-agents` 0.22.0,
+  `crewai` / `crewai-tools` 1.15.17, `langchain-core` 1.6.0, `langgraph` 1.2.11, `langsmith` 0.11.1,
+  `litellm` 1.97.0, `mcp` 2.0.0, `a2a-sdk` 1.1.2, `sentence-transformers` 6.0.0, `ruff` 0.16.3,
+  `pytest` 9.1.1 — all exactly as recorded on 2026-08-20. Checked, unchanged, no action.
+- **Patch drift — `langchain` 1.3.15 → 1.3.16.** Same minor line, no addendum needed (Principle 14's
+  patch row). `docs/PINS.md` updated. The package is not installed until Day 36; re-verify then.
+- ⚠️ **Ledger fix — `ruff` and `pytest` pulled forward from Day 2 to Day 1.** Plan-internal
+  contradiction, not ecosystem drift: `days/day-01/CHECKLIST.md` names `uv run pytest
+  tests/test_config.py -v` as the day's demo command and ends with `./m check` (which runs
+  `uv run ruff check`, `uv run ruff format --check` and `uv run pytest`), but the `docs/PINS.md`
+  ledger did not add either package until Day 2. Day 1 could not verify its own Principle-7 test.
+  **Fixed:** `uv add --dev "ruff==0.16.3" "pytest==9.1.1"` moves to Day 1; Day 2 keeps
+  `pytest-recording`, `vcrpy` and `pre-commit`, which is where the cassette and hook teaching lives.
+  No curriculum change — Day 2 still owns CI and the quality gates. **Overrule this if you would
+  rather Day 1's test stay unrun until Day 2.**
+
+**Model pins recorded (`src/mandala/models.py`), read from the live `GET /models` rosters and each
+confirmed with one real completion:**
+
+| Constant | Provider | Pin | Note |
+|---|---|---|---|
+| `WORKHORSE` | Gemini | `gemini-3.7-flash` | newest GA Flash line on the roster |
+| `FAST_LOOP` | Groq | `openai/gpt-oss-20b` | reasoning model — returns empty `content` if `max_tokens` is too small |
+| `JUDGE` | OpenRouter | `nvidia/nemotron-3-super-120b-a12b:free` | different family from both of the above (judge ≠ judged) |
+| `OFFLINE` | Ollama | *(unset)* | not installed; optional per plan §2.1 |
+
+`z-ai/glm-5.2:free` was pinned as `JUDGE` first and **replaced within the hour** — OpenRouter's
+shared upstream pool returned `429 upstream_429` on two consecutive attempts. Logged because it is
+the first live confirmation of `RATE_BUDGET.md` standing rule 5, and it is the exact failure the
+Day-6 router has to survive.
+
+⚠️ **Second ledger/tooling fix — `ruff format` was rewriting the lessons.** ruff 0.16 formats
+Python code blocks inside Markdown, so `./m check`'s `ruff format --check .` failed on **30 of the
+31** files it flagged — every `days/*/LESSON.md`, because the plan's teaching style aligns trailing
+comments into columns and ruff normalises them to two spaces. Reformatting the curriculum to please
+a formatter is the tail wagging the dog. **Fixed in `pyproject.toml`:** `[tool.ruff.format]
+exclude = ["**/*.md"]`. Real `.py` files are still formatted and `ruff check` still lints
+everything. Cosmetic consequence: `src/mandala/models.py` and `days/day-01/lab/verify_keys.py` on
+disk carry ruff's two-space comment spacing, while the listings in `days/day-01/LESSON.md` keep the
+aligned columns. Same code, different whitespace.
+
+**Live limits** recorded in `docs/RATE_BUDGET.md` §1: Groq **1000 RPD / 8000 TPM** (from
+`x-ratelimit-*` headers), OpenRouter `:free` **20 RPM / 50 RPD** (docs + `GET /v1/key`). Gemini's
+numbers are **still outstanding** — Google removed free-tier figures from the public docs page and
+now shows them only in AI Studio, so one manual console read is left (`RATE_BUDGET.md` §1a).
+
+---
+
 ## 2026-08-20 — ten inconsistencies found while writing Days 15–26 (Principle 14)
 
 All ten are **plan-internal contradictions**, not ecosystem drift. None is silently adapted; the

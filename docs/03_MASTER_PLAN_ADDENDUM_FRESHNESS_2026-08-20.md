@@ -5,6 +5,8 @@
 > amended *before* any code is written.
 > **Status:** ⏳ **proposed — awaiting your sign-off.** Nothing in `00_MASTER_PLAN_AGENT_STACKS.md`
 > has been edited yet. Evidence table: `docs/PINS.md`.
+> **Updated 2026-08-20 after Day 1** — the method here was re-run against the live APIs; results
+> and two consequences are in **Part 6**. The three sign-off boxes in Part 5 are still yours.
 
 ---
 
@@ -27,7 +29,7 @@ to be, and are, unchanged.
 | A2A | v1.0 | **v1.0** (`a2a-sdk` 1.1.2) | Phase 13 stands. |
 | Python | 3.12 | **3.12 still the safe intersection** | `crewai` caps at <3.14; `openai-agents` needs ≥3.10. 3.12 is comfortably inside. |
 | `openai-agents` | "Apr 2026 line" | **0.22.0** (2026-08-19) | Actively released *yesterday*. Zero-budget stance unchanged: primitives free via LiteLLM, hosted surface paid. |
-| Zero-budget model story | Gemini / Groq / OpenRouter `:free` / Ollama | unchanged in shape | ⚠️ **Live rate limits were NOT verified** — they need your provider consoles. This stays a **Day 1 task** (`docs/RATE_BUDGET.md`). |
+| Zero-budget model story | Gemini / Groq / OpenRouter `:free` / Ollama | unchanged in shape | 🟡 **Partly closed on Day 1 (2026-08-20).** Groq and OpenRouter limits are now recorded in `docs/RATE_BUDGET.md` §1; Gemini's are console-only and still outstanding (§1a). See Part 6. |
 
 ---
 
@@ -35,7 +37,7 @@ to be, and are, unchanged.
 
 | | Plan baseline (2026-08-12) | Live (2026-08-20) |
 |---|---|---|
-| `langchain` | **1.2.x** | **1.3.15** (released 2026-08-11) |
+| `langchain` | **1.2.x** | **1.3.16** (1.3.15 on 2026-08-11; patch bump seen on Day 1) |
 | `langchain-core` | 1.2.x-era | **1.6.0** (released 2026-08-19) |
 
 ### Why this is a *minor* material change, not a rewrite
@@ -55,7 +57,7 @@ So **no LC-* ID changes meaning.** What changes is the *number you pin* and the 
 
 ```diff
 - | LangChain | `langchain`, `langchain-core` | **1.2.x** — `create_agent` ...
-+ | LangChain | `langchain`, `langchain-core` | **1.3.15 / core 1.6.0** (verified 2026-08-20) — `create_agent` ...
++ | LangChain | `langchain`, `langchain-core` | **1.3.16 / core 1.6.0** (verified 2026-08-20) — `create_agent` ...
 ```
 
 and a matching row in `docs/CHANGELOG_PLAN.md`. Version bump: **v1.1.0 → v1.1.1** (pin refresh, no
@@ -94,8 +96,53 @@ Until then, **Day 53's first task is to resolve this**, and it says so.
 
 ## Part 5 — Sign-off
 
-- [ ] I accept the LangChain pin refresh (1.2.x → 1.3.15 / core 1.6.0) — bump plan to **v1.1.1**
+- [ ] I accept the LangChain pin refresh (1.2.x → **1.3.16** / core 1.6.0) — bump plan to **v1.1.1**
+      · *Day 1 re-verified the number; the acceptance is still yours.*
 - [ ] I resolved the `01_MASTER_PLAN_ADDENDUM_GAPS.md` gap (option 1 or 2 above)
+      · *Still open. Nothing was written to fill it — see Part 4.*
 - [ ] I recorded live free-tier limits into `docs/RATE_BUDGET.md` (Day 1)
+      · *Two of three done (Groq, OpenRouter). Gemini needs one console read — `RATE_BUDGET.md` §1a.*
 
 *Once signed, log all three in `docs/CHANGELOG_PLAN.md` and edit Part 2 of the master plan.*
+
+---
+
+## Part 6 — Day-1 execution report (2026-08-20)
+
+The Day-1 lab re-ran this addendum's method rather than trusting it. What came back:
+
+**Pins.** 13 of 15 packages unchanged from the table in `docs/PINS.md`: `openai` 3.3.1,
+`python-dotenv` 1.2.3, `openai-agents` 0.22.0, `crewai`/`crewai-tools` 1.15.17, `langchain-core`
+1.6.0, `langgraph` 1.2.11, `langsmith` 0.11.1, `litellm` 1.97.0, `mcp` 2.0.0, `a2a-sdk` 1.1.2,
+`sentence-transformers` 6.0.0, `ruff` 0.16.3, `pytest` 9.1.1. **One patch bump:** `langchain`
+1.3.15 → **1.3.16**. Patch row of Principle 14 — pinned and logged, no new addendum.
+
+**Model pins are now real** (`src/mandala/models.py`), each read from a live `GET /models` roster
+and confirmed with one real completion:
+
+| Constant | Provider | Pin |
+|---|---|---|
+| `WORKHORSE` | Gemini | `gemini-3.7-flash` |
+| `FAST_LOOP` | Groq | `openai/gpt-oss-20b` |
+| `JUDGE` | OpenRouter | `nvidia/nemotron-3-super-120b-a12b:free` |
+| `OFFLINE` | Ollama | *(unset — not installed; optional per plan §2.1)* |
+
+**A `:free` id died inside the hour.** `z-ai/glm-5.2:free` was pinned as `JUDGE`, then returned
+`429 upstream_429` from OpenRouter's shared upstream pool on two consecutive attempts and was
+replaced. This is the first live evidence for `RATE_BUDGET.md` standing rule 5, and it is exactly
+the failure the Day-6 router exists to absorb.
+
+**One documentation fact changed under us.** `ai.google.dev/gemini-api/docs/rate-limits` **no longer
+publishes free-tier RPM/RPD/TPM**; it now says limits "can be viewed in Google AI Studio". So the
+Gemini row in `RATE_BUDGET.md` cannot be closed from a public source at all — it needs an
+authenticated console read. Recorded here because a future freshness run will otherwise re-discover
+it and assume the doc is broken.
+
+**Two plan-internal fixes were needed to make Day 1 runnable**, both logged in
+`docs/CHANGELOG_PLAN.md` and both overrulable:
+
+1. `ruff` and `pytest` moved from the Day-2 ledger row to **Day 1** — Day 1's own demo command is
+   `uv run pytest`, and its closing step is `./m check`, which runs both.
+2. `[tool.ruff.format] exclude = ["**/*.md"]` — ruff 0.16 formats Python blocks inside Markdown and
+   wanted to rewrite the aligned-comment listings in 30 `LESSON.md` files.
+

@@ -1,0 +1,31 @@
+[
+  {"id": "T-1001", "severity": "high", "category": "auth",
+   "body": "Login redirects in a loop after SSO. Started this morning around 09:15. About 40 users affected. Clearing cookies does not help."},
+
+  {"id": "T-1002", "severity": "low", "category": "billing",
+   "body": "Invoice PDF still shows our old company name after we renamed the org."},
+
+  {"id": "T-1003", "severity": "medium", "category": "billing",
+   "body": "We were charged twice for March. Need one of them refunded."},
+
+  {"id": "T-1004", "severity": "high", "category": "data",
+   "body": "Scheduled export job has produced empty CSVs since the 14th. No error, just zero rows."},
+
+  {"id": "T-1005", "severity": "low", "category": "howto",
+   "body": "How do I rename a workspace?"},
+
+  {"id": "T-1006", "severity": "medium", "category": "data",
+   "body": "it's broken"},
+
+  {"id": "T-1007", "severity": "medium", "category": "billing",
+   "body": "Our usage dashboard shows 4.2M API calls for July but the invoice is calculated on 5.1M. Either the dashboard is under-reporting or we are being over-billed, and I genuinely cannot tell which. The finance team needs an answer before the 30th."},
+
+  {"id": "T-1008", "severity": "critical", "category": "auth",
+   "body": "A former employee's account still has admin access three weeks after offboarding. Please revoke immediately."},
+
+  {"id": "T-1009", "severity": "low", "category": "other",
+    "body": "Hi team! Just wanted to say the new dashboard looks great. Also, unrelated, at some point last week I think I saw a spinner that never stopped on the reports page, but I refreshed and it was fine, so probably nothing. I did not note the exact report, browser, or time because it disappeared before I could investigate. It may have happened while I was switching filters, though I cannot reproduce it today. Anyway, no action needed unless someone else reports it; feel free to close this. Thanks for all your work!"},
+
+  {"id": "T-1010", "severity": "high", "category": "data",
+   "body": "Webhook deliveries stopped at 03:00 UTC. Our queue is backing up at roughly 2k events an hour."}
+]

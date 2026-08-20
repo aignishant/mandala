@@ -13,7 +13,7 @@
 | `openai` | **3.3.1** | 2026-08-19 | — | ✅ pin exact |
 | `crewai` | **1.15.17** | 2026-08-20 | 1.15.x (1.15.6 seen) | ✅ same minor, newer patch |
 | `crewai-tools` | **1.15.17** | 2026-08-20 | 1.15.x | ✅ |
-| `langchain` | **1.3.15** | 2026-08-11 | **1.2.x** | ⚠️ **MINOR DRIFT** → see `03_MASTER_PLAN_ADDENDUM_FRESHNESS_2026-08-20.md` |
+| `langchain` | **1.3.16** | 2026-08 | **1.2.x** | ⚠️ **MINOR DRIFT** → see `03_MASTER_PLAN_ADDENDUM_FRESHNESS_2026-08-20.md` · re-checked Day 1, patch moved 1.3.15 → **1.3.16** |
 | `langchain-core` | **1.6.0** | 2026-08-19 | 1.2.x-era core | ⚠️ same drift |
 | `langgraph` | **1.2.11** | 2026-08-11 | 1.2.x (1.2.9) | ✅ same minor, newer patch |
 | `langsmith` | **0.11.1** | 2026-08-19 | — | ✅ |
@@ -57,7 +57,8 @@
 | Day | Command |
 |---|---|
 | 1 | `uv add "openai==3.3.1" "python-dotenv==1.2.3"` |
-| 2 | `uv add --dev "ruff==0.16.3" "pytest==9.1.1" "pytest-recording==0.13.4" "vcrpy==8.3.0" "pre-commit==4.6.2"` |
+| 1 | `uv add --dev "ruff==0.16.3" "pytest==9.1.1"` *(pulled forward from Day 2 — Day 1's own demo command and `./m check` both need them; see CHANGELOG 2026-08-20)* |
+| 2 | `uv add --dev "pytest-recording==0.13.4" "vcrpy==8.3.0" "pre-commit==4.6.2"` |
 | 4 | `uv add "pydantic==2.13.4"` |
 | 6 | `uv add "tenacity==9.1.4"` |
 | 9 | `uv add "openai-agents[litellm]==0.22.0"` |
@@ -70,7 +71,7 @@
 | 26 | `uv add "sentence-transformers==6.0.0"` *(local embedder for CrewAI memory — pulled forward from Day 46)* |
 | 36 | `uv add "langchain==1.3.15" "langchain-core==1.6.0" "langchain-google-genai==4.3.4" "langchain-groq==1.1.3" "langchain-openai==1.6.0"` |
 | 41 | `uv add "deepagents==0.7.7"` |
-| 43 | `uv add "langgraph==1.2.11"` |
+| 42 | `uv add "langgraph==1.2.11"` *(pulled forward from Day 43 — LC-13 builds a `StateGraph` on Day 42, and `langchain` already pulls `langgraph` in transitively, so leaving it unpinned violates Principle 4; see CHANGELOG 2026-08-21)* |
 | 46 | `uv add "numpy==2.5.2"` *(`sentence-transformers` already installed on Day 26)* |
 | 47 | `uv add "langgraph-checkpoint-sqlite==3.1.1"` |
 | 53 | `uv add "httpx==0.28.1"` *(`mcp` already installed on Day 16)* |

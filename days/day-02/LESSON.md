@@ -8,7 +8,7 @@ principles: ["P1 build daily", "P7 evals before features", "P9 interview-ready a
 kind: gate
 plan_version: "v1.1.0"
 generated: "2026-08-20"
-status: not-started
+status: in-progress
 lab_scaffolded: false
 commit: ""
 ---

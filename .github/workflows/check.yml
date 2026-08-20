@@ -1,0 +1,34 @@
+name: check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.12.5"
+
+      - name: install python
+        run: uv python install 3.12
+
+      - name: sync dependencies (fails if uv.lock is stale)
+        run: uv sync --locked --all-groups
+
+      - name: lint
+        run: uv run ruff check .
+
+      - name: format check
+        run: uv run ruff format --check .
+
+      - name: tests (offline tier only — no secrets are configured on purpose)
+        run: uv run pytest -q
+
+      - name: docs consistency
+        run: uv run python scripts/mandala.py check-ids
