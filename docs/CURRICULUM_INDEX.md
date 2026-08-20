@@ -5,38 +5,52 @@
 > `docs/PINS.md`. Every day below has a written `LESSON.md` and `CHECKLIST.md` **already on disk** —
 > the teaching is done up front so you can work through it without needing a model in the loop.
 >
-> **What is deliberately NOT here yet:** the `lab/` starter code. Lab scaffolds are generated on the
-> day you run them (`/day NN`) so they build on the code that actually exists in `src/mandala/` by
-> then, rather than on a guess made 80 days early. Each lesson's **§ Build brief** fully specifies
-> what the lab must contain, so you can also just write it yourself.
+> **All code lives in the docs.** Nothing is pre-written in `src/`. Every line you will run is
+> written out inside a lesson, with a line-by-line walkthrough, and you create the file yourself.
+> Every command — `mkdir`, `touch`, `uv add`, the run command — is given in full.
 
 ---
 
-## How to read a day-doc
+## Start here
 
-Every `days/day-NN/LESSON.md` opens with YAML frontmatter. That block is the machine-readable
-tracking record — **update it as you go**, it is how a future session (or a future you) knows
-where things stand:
+**First time?** → [`days/day-00-setup/LESSON.md`](../days/day-00-setup/LESSON.md) — install the
+toolchain, create the skeleton, and build the tracker. Half a day. Do it before Day 1.
 
-```yaml
-day: 7
-phase: 1
-ids: ["AG-09", "AG-12"]
-kind: lab              # lab | concept | gate | buffer | capstone
-plan_version: "v1.1.0"
-generated: "2026-08-20"
-status: not-started    # not-started | in-progress | done   <-- YOU EDIT THIS
-lab_scaffolded: false  # flips to true when /day 7 writes lab/   <-- YOU EDIT THIS
-commit: ""             # the sha from /done                      <-- /done FILLS THIS
-```
-
-**Status legend for the tables below:** ⬜ not started · 🟨 in progress · ✅ done · 🎯 phase gate
-
-To regenerate the status column from disk at any time:
+**Already set up?** →
 
 ```bash
-grep -H '^status:' days/day-*/LESSON.md
+./m status
 ```
+
+---
+
+## The daily rhythm
+
+```bash
+./m status              # what's next?
+./m start 7             # marks Day 7 in-progress, prints its IDs
+./m scaffold 7          # creates days/day-07/lab/
+                        # ... read LESSON.md, run its Setup block, write the code ...
+./m check               # lint + offline tests. Free. No network.
+                        # ... tick the boxes in CHECKLIST.md ...
+./m done 7              # refuses if boxes are unticked or check is red;
+                        # otherwise commits and updates every tracker file
+```
+
+**You never hand-edit this file.** `./m done` and `./m sync` own the Status column below, plus
+`docs/TRACEABILITY.md`, `docs/CHANGELOG_PLAN.md`, and each lesson's frontmatter. That automation is
+built on Day 0 and explained line by line in
+[`days/day-00-setup/TRACKER.md`](../days/day-00-setup/TRACKER.md).
+
+**Status legend:** ⬜ not started · 🟨 in progress · ✅ done · 🎯 phase gate
+
+---
+
+## Setup (before Phase 0)
+
+| Day | Title | IDs | Kind | Status |
+|---|---|---|---|---|
+| [0](../days/day-00-setup/LESSON.md) | Setup — toolchain, skeleton, and the tracker | — | setup | ⬜ |
 
 ---
 
@@ -73,7 +87,7 @@ grep -H '^status:' days/day-*/LESSON.md
 
 | Day | Title | IDs | Kind | Status |
 |---|---|---|---|---|
-| [3](../days/day-03/LESSON.md) | The loop, naked | AG-01, AG-02 | lab | 🟨 |
+| [3](../days/day-03/LESSON.md) | The loop, naked | AG-01, AG-02 | lab | ⬜ |
 | [4](../days/day-04/LESSON.md) | Shapes and budgets — structured output & the context window | AG-03, AG-04 | lab | ⬜ |
 | [5](../days/day-05/LESSON.md) | ReAct and its ceiling — reacting vs. planning | AG-05, AG-06 | lab | ⬜ |
 | [6](../days/day-06/LESSON.md) | Prompts as APIs, and the router that never dies | AG-07, AG-08 | lab | ⬜ |

@@ -36,7 +36,7 @@
 
 | Tool | Live version | Note |
 |---|---|---|
-| `uv` | **0.12.5** (2026-08-14) | environment + workspace manager |
+| `uv` | **0.12.5** (2026-08-14) | environment manager. Installed on Day 0. |
 | `ruff` | **0.16.3** (2026-08-13) | lint + format |
 | `pytest` | **9.1.1** (2026-06-19) | test runner |
 | `ddgs` | **9.15.0** (2026-08-16) | free search backend for OAI-13 |
@@ -45,6 +45,41 @@
 | `opentelemetry-sdk` | **1.44.0** (2026-07-16) | neutral trace layer (Principle 8) |
 | `temporalio` | **1.31.0** (2026-07-29) | Day-20 durable-run lab (self-hosted, free) |
 | `chromadb` | **1.5.9** (2026-05-05) | optional; Day 46 prefers a plain numpy index |
+
+---
+
+## 📆 Dependency ledger — what to `uv add`, and on which day
+
+> `pyproject.toml` starts with `dependencies = []`. Each package is added **on the day it is first
+> needed**, with its exact version, so you always know why every dependency exists.
+> Copy these lines from the lesson that owns them — they are repeated there.
+
+| Day | Command |
+|---|---|
+| 1 | `uv add "openai==3.3.1" "python-dotenv==1.2.3"` |
+| 2 | `uv add --dev "ruff==0.16.3" "pytest==9.1.1" "pytest-recording==0.13.4" "vcrpy==8.3.0" "pre-commit==4.6.2"` |
+| 4 | `uv add "pydantic==2.13.4"` |
+| 6 | `uv add "tenacity==9.1.4"` |
+| 9 | `uv add "openai-agents[litellm]==0.22.0"` |
+| 17 | `uv add "rich==15.0.0"` |
+| 19 | `uv add "docker==7.2.0"` *(and install Docker Desktop)* |
+| 20 | `uv add "temporalio==1.31.0"` |
+| 23 | `uv add "crewai==1.15.17" "crewai-tools==1.15.17"` |
+| 36 | `uv add "langchain==1.3.15" "langchain-core==1.6.0" "langchain-google-genai==4.3.4" "langchain-groq==1.1.3" "langchain-openai==1.6.0"` |
+| 41 | `uv add "deepagents==0.7.7"` |
+| 43 | `uv add "langgraph==1.2.11"` |
+| 46 | `uv add "sentence-transformers==6.0.0" "numpy==2.5.2"` |
+| 47 | `uv add "langgraph-checkpoint-sqlite==3.1.1"` |
+| 53 | `uv add "mcp==2.0.0" "httpx==0.28.1"` |
+| 68 | `uv add "playwright==1.62.0"` |
+| 73 | `uv add "langsmith==0.11.1"` |
+| 75 | `uv add "opentelemetry-sdk==1.44.0" "opentelemetry-exporter-otlp==1.44.0"` |
+| 85 | `uv add "fastapi==0.141.1" "uvicorn==0.52.4"` |
+| 87 | `uv add "a2a-sdk==1.1.2"` |
+
+⚠️ **Verify each version on the day you add it.** These were live on 2026-08-20; a patch bump is
+routine (pin the new patch, log one line). A **minor or major** bump means: stop, read the release
+notes, write an addendum — *then* pin. That is Principle 14.
 
 ## Python
 
