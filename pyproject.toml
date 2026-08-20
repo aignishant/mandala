@@ -1,0 +1,28 @@
+[project]
+name = "mandala"
+version = "0.1.0"
+description = "Project Mandala — a 90-day multi-agent curriculum, built on free tiers only"
+requires-python = "==3.12.*"
+dependencies = []
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mandala"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = [
+    "live: hits a real provider; costs free-tier quota; excluded from the default run",
+    "cassette: replays a recorded response; free and offline",
+]

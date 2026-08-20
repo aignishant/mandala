@@ -67,10 +67,11 @@
 | 19 | `uv add "docker==7.2.0"` *(and install Docker Desktop)* |
 | 20 | `uv add "temporalio==1.31.0"` |
 | 23 | `uv add "crewai==1.15.17" "crewai-tools==1.15.17"` |
+| 26 | `uv add "sentence-transformers==6.0.0"` *(local embedder for CrewAI memory — pulled forward from Day 46)* |
 | 36 | `uv add "langchain==1.3.15" "langchain-core==1.6.0" "langchain-google-genai==4.3.4" "langchain-groq==1.1.3" "langchain-openai==1.6.0"` |
 | 41 | `uv add "deepagents==0.7.7"` |
 | 43 | `uv add "langgraph==1.2.11"` |
-| 46 | `uv add "sentence-transformers==6.0.0" "numpy==2.5.2"` |
+| 46 | `uv add "numpy==2.5.2"` *(`sentence-transformers` already installed on Day 26)* |
 | 47 | `uv add "langgraph-checkpoint-sqlite==3.1.1"` |
 | 53 | `uv add "httpx==0.28.1"` *(`mcp` already installed on Day 16)* |
 | 68 | `uv add "playwright==1.62.0"` |

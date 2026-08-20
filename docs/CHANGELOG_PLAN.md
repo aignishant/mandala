@@ -7,9 +7,9 @@
 
 ---
 
-## 2026-08-20 — nine inconsistencies found while writing Days 15–21 (Principle 14)
+## 2026-08-20 — ten inconsistencies found while writing Days 15–26 (Principle 14)
 
-All nine are **plan-internal contradictions**, not ecosystem drift. None is silently adapted; the
+All ten are **plan-internal contradictions**, not ecosystem drift. None is silently adapted; the
 resolution taken in the affected lesson is stated here so it can be overruled.
 
 1. **OAI-13 references "your AG-13 local index" on Day 15, but AG-13 is slotted to Day 46.**
@@ -73,7 +73,19 @@ resolution taken in the affected lesson is stated here so it can be overruled.
    semantics, saying so in §3's opening. **Amendment proposed:** drop "🅿️" from the row body and
    keep 🛠️, since nothing about OAI-21 requires a paid key. **Unsigned.**
 
-9. **`ddgs` was in `docs/PINS.md`'s version table but absent from its dependency ledger.**
+9. **CrewAI memory (CR-08, Day 26) needs a free embedder, but the free embedder was slotted to
+   Day 46.** `memory=True` defaults to a **paid OpenAI** embedder, which Principle 5 forbids. The
+   free replacement, `sentence-transformers`, sat at Day 46 (AG-13) in the ledger — twenty days
+   *after* the **Phase-4 gate (Day 29)**, whose artifact the plan defines as a crew with "memory
+   on". As written, the gate could not be reached on $0.
+   **Resolution taken:** ledger split — `sentence-transformers==6.0.0` moves to **Day 26**,
+   `numpy==2.5.2` stays on Day 46. The *dependency* moves early; the *teaching* does not — Day 46
+   still owns embeddings, chunking and top-k, and Day 26 only configures a provider string.
+   Ollama's local embeddings were considered and rejected: Ollama is optional in the plan (§2.1),
+   and a phase gate must not depend on an optional component. No curriculum change. **Unsigned** —
+   overrule it if you would rather move CR-08's memory lab after Day 46.
+
+10. **`ddgs` was in `docs/PINS.md`'s version table but absent from its dependency ledger.**
    The ledger's own rule is that every package names the day it is first needed, and `ddgs` is
    first needed by OAI-13. **Fixed:** ledger row `15 | uv add "ddgs==9.15.0"` added. No plan
    change — this was a gap in our own evidence file.
@@ -136,3 +148,5 @@ Rows merged from `02_MASTER_PLAN_ADDENDUM_ZERO_BUDGET.md`. Structure unchanged: 
 | Is `ModelSettings.parallel_tool_calls` present in 0.22.0? It changes Day 18's naive baseline from ~9 calls to ~4. | Day 18 §8 | Day 18's headline number |
 | Does the OAI-17 paid feature emit **JS** or **Python**? The plan says JS. | Day 18 §3.2 | correcting the Part-4 row |
 | Does 0.22.0 expose **native HITL tool approval** on `function_tool`, or only on hosted/MCP tools? | Day 21 §8 | AG-20 (Day 50) |
+| Which `chromadb` version does `crewai` pull, and does it conflict with the Day-46 pin? | Day 26 §8 | Day 29's gate crew |
+| What provider string does CrewAI 1.15.17 want for a **local sentence-transformers** embedder? | Day 26 §4.2 | Day 26's own lab |
