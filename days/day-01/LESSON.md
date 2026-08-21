@@ -656,4 +656,8 @@ Tick every box in `CHECKLIST.md`, then:
 ./m done 1
 ```
 
-`./m done` refuses to commit while a box is unticked or the checks are red. That is the point.
+`./m check` runs Ruff's lint and format checks, then the offline pytest suite. On Windows systems
+where Application Control blocks the `pytest.exe` launcher, run tests directly with
+`uv run python -m pytest -q`; `./m check` already uses this project-local Python module invocation.
+It does not change or use another project's environment. `./m done` refuses to commit while a box
+is unticked or the checks are red. That is the point.

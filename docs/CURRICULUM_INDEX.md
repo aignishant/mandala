@@ -31,7 +31,7 @@ toolchain, create the skeleton, and build the tracker. Half a day. Do it before 
 ./m start 7             # marks Day 7 in-progress, prints its IDs
 ./m scaffold 7          # creates days/day-07/lab/
                         # ... read LESSON.md, run its Setup block, write the code ...
-./m check               # lint + offline tests. Free. No network.
+./m check               # ruff lint + format + offline pytest. Free. No network.
                         # ... tick the boxes in CHECKLIST.md ...
 ./m done 7              # refuses if boxes are unticked or check is red;
                         # otherwise commits and updates every tracker file

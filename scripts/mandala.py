@@ -189,7 +189,7 @@ def cmd_check(args) -> None:
     steps = [
         ["uv", "run", "ruff", "check", "."],
         ["uv", "run", "ruff", "format", "--check", "."],
-        ["uv", "run", "pytest", "-q"],
+        [sys.executable, "-m", "pytest", "-q"],
     ]
     for step in steps:
         print(f"$ {' '.join(step)}")
