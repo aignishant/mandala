@@ -9,8 +9,10 @@ repos:
   - repo: local
     hooks:
       - id: pytest-fast
-        name: pytest (unit + cassette, offline)
-        entry: uv run python -m pytest -q
+        name: pytest (offline tier only)
+        # -m "not live" keeps the hook free (Principle 5); exit code 5 means pytest
+        # collected no tests, which is the honest state until the first lab writes one.
+        entry: bash -c 'uv run python -m pytest -q -m "not live" || [ $? -eq 5 ]'
         language: system
         pass_filenames: false
         always_run: true

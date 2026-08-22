@@ -1,50 +1,46 @@
-# 📅 days/ — the 90 written days
+# 📅 days/ — the 91 written days
 
 **Never done this before?** Start at [`day-00-setup/LESSON.md`](day-00-setup/LESSON.md).
-**Already set up?** Run `./m status`, it tells you which day is next.
+**Already set up?** Run `./m status`, it tells you where you are.
 **Want the map?** [`../docs/CURRICULUM_INDEX.md`](../docs/CURRICULUM_INDEX.md).
+**Want progress?** [`../docs/TRACKER.md`](../docs/TRACKER.md).
 
 ---
 
-## The three rules these docs follow
+## The six rules these docs follow
 
 1. **All the code lives in the docs. None of it is pre-written in the repo.**
    You type it, you own it. There is no `src/mandala/*.py` waiting for you — every line you will
-   ever run is written out in a lesson, and you create the file yourself. You cannot debug on Day 60
-   what you never read on Day 12.
+   ever run is written out in a lesson, and you create the file yourself. You cannot debug on Day 62
+   what you never read on Day 6.
 
 2. **Every code block is followed by a line-by-line walkthrough.**
    Not a summary — an explanation of what each line does and *why it is that line and not another*.
-   If a line is unexplained anywhere in these 91 documents, that is a bug in the doc.
+   If a line is unexplained anywhere in these documents, that is a bug in the doc.
 
 3. **Every command is given in full.**
    `mkdir -p`, `touch`, `uv add package==1.2.3`, the run command, the test command. You should never
    have to infer "and now presumably I create a folder".
 
----
+4. **One idea per document.** *(plan v2.0.0 — Principle 15)*
+   A day is not one long page. It is a short hub plus one document per subtopic, in `parts/`. If a
+   document needs the word "also" to introduce its second half, it should have been two documents.
 
-## Which shell
+5. **There are no clocks here.** *(Principle 16)*
+   You will not find "this takes 90 minutes" anywhere in these documents, because it would be a lie
+   and because it invites trimming. **A day is a unit of subject, not a unit of time.** Day 46 might
+   take you one sitting or four; both are the day being done properly. Nothing is ever cut short to
+   fit a schedule — if a subject needs twenty documents, it gets twenty. `./m done N` is gated on a
+   ticked checklist and green checks, never on hours elapsed.
 
-You are on **Windows 11**. Everything here is written for **Git Bash** (installed with Git).
-Open it from the Start menu and:
-
-```bash
-cd /c/Users/nisha_gnzw/OneDrive/Desktop/Projects/mandala
-```
-
-If you must use PowerShell:
-
-| Git Bash (used in these docs) | PowerShell |
-|---|---|
-| `mkdir -p a/b/c` | `New-Item -ItemType Directory -Force a/b/c` |
-| `touch f.py` | `if (-not (Test-Path f.py)) { New-Item -ItemType File f.py }` |
-| `cat > f <<'EOF' … EOF` | `@'…'@ \| Set-Content -Encoding utf8 f` |
-| `rm -rf folder` | `Remove-Item -Recurse -Force folder` |
-| `./m status` | `bash ./m status` |
-| `cmd1 && cmd2` | `cmd1; if ($?) { cmd2 }` |
-
-**`make` is not used anywhere in this project** and is not installed on your machine. The `./m`
-script (built on Day 0) replaces it.
+6. **Zero prior knowledge in, production knowledge out.** *(Principle 17)*
+   Every document starts where someone who has never heard of the idea can stand — the jargon is
+   defined the first time it appears, including jargon from earlier days, with a link back. And no
+   document stops at the toy example: each one ends with **In production** — what a professional
+   writes instead of the teaching version, what breaks under load or a provider outage, the blast
+   radius, the comment a senior engineer leaves on that code, and the question an interviewer asks
+   to find out whether you have really shipped it. Strong fundamentals and advanced technique are
+   the same page, in that order.
 
 ---
 
@@ -52,50 +48,107 @@ script (built on Day 0) replaces it.
 
 ```
 days/day-NN/
-  LESSON.md      # the teaching + every line of code + every command
-  CHECKLIST.md   # the definition of done. `./m done NN` refuses to commit until it's ticked.
-  lab/           # you create this; `./m scaffold NN` makes the folder
+├── LESSON.md      # the hub — the story, the map of parts, setup, build brief, the eval, the budget
+├── CHECKLIST.md   # the definition of done. `./m done NN` refuses to commit until it's ticked.
+├── parts/         # THE TEACHING — one document per subtopic
+│   ├── 01/        # section 1 — its own folder
+│   │   ├── 1.1-<slug>.md
+│   │   └── 1.2-<slug>.md
+│   └── 02/        # section 2
+│       └── 2.1-<slug>.md
+└── lab/           # you create this; `./m scaffold NN` makes the folder
 ```
 
-### The shape of every LESSON.md
+**Read the hub first, then the parts in numerical order.** The hub's §2 map is the table of contents
+and tells you what each section number means for that day.
+
+### What `1.1`, `1.2`, `2.1` mean
+
+The number is `<section>.<subtopic>`, both scoped to that day.
+
+- The **section** (the digit before the dot) groups subtopics that share one mental model — usually
+  one curriculum ID, one stage of the agent loop, or one layer of a framework's stack.
+- The **subtopic** (after the dot) is the reading order inside that section.
+
+So on a two-ID day, `1.x` is the first ID, `2.x` is the second, and a `3.x` is usually the synthesis
+— the trap you can only see once both ideas are true at the same time. Whatever the grouping is, the
+hub says so explicitly.
+
+**Each section gets its own folder**, numbered with two digits: section 1 is `parts/01/`, section 12
+is `parts/12/`. So the third subtopic of section 2 is `parts/02/2.3-<slug>.md`. On a day with
+eighteen parts this is the difference between a readable folder and a wall of filenames — and a
+section is exactly the chunk you will want to sit down with at once.
+
+### The shape of every part document
+
+Ten sections, always in this order. They trace one path: from a reader who has never heard of the
+idea, to one who could defend it in a design review. This is the depth contract (plan Part 11.4),
+and `./m depth NN` fails the day if any of them is missing.
 
 | Section | What it's for |
 |---|---|
-| **frontmatter** | machine-readable tracking. **`./m` edits this, not you.** |
-| **§ Where we are** | yesterday / today / tomorrow, in one line each |
-| **§ The story** | the idea in plain English with an analogy, before any code |
-| **§ Setup — run this** | every `mkdir`, `touch`, `uv add` and `export` today needs |
-| **§ per-ID sections** | plain idea → why Mandala needs it → the code → **line by line** → watch it break → the interview line |
-| **§ Build brief** | the file list, and which parts are yours to write |
-| **§ The eval** | the test that must be able to **fail** (Principle 7) |
-| **§ Request budget** | how many free-tier calls today costs (Principle 5) |
-| **§ Traps** | the mistakes that eat an evening |
-| **§ Verify before you code** | the live docs pages to check — these files were written 2026-08-20 |
-| **§ Done when** | pointer to `CHECKLIST.md` |
+| **frontmatter** | `day`, `part`, `title`, `ids`, `level`, `prerequisites`, `prev`, `next` — machine-read. No duration field; see rule 5. |
+| **One-line answer** | the whole claim in one sentence, before anything else |
+| **The story** | a concrete scene — a person, a machine, a failure, a decision — with no jargon at all. The hook the definition hangs on. |
+| **The idea in plain language** | the concept from zero, every term defined the first time it appears, no code |
+| **Why Mandala needs it** | the specific later day that breaks without this |
+| **The mechanism** | the runnable code, the protocol exchange written out message by message, or the diagram |
+| **Line by line** | every non-obvious token, and why it is that line and not another |
+| **When it breaks** | the **real** error text, what it means, the smallest fix |
+| **In production** | what changes in a real system: the professional's version, what degrades under load, the blast radius, the senior reviewer's comment, the interviewer's question |
+| **Check yourself** | one command to run now, one question to answer out loud |
+
+### `level` — where a part leaves you
+
+Every part declares one, and a well-built day climbs through them:
+
+| `level` | You can… |
+|---|---|
+| `foundation` | say what the thing *is*, without using the word itself |
+| `working` | use it correctly in your own code, and recognise its error messages on sight |
+| `production` | say what changes when it runs in a real system — scale, concurrency, cost, blast radius, failure — and defend the choice |
+
+### The shape of every hub (`LESSON.md`)
+
+The hub orients and assembles. **It never teaches** — there is no line-by-line walkthrough in it.
+
+| Section | What it's for |
+|---|---|
+| **frontmatter** | machine-readable tracking. **`./m` and `scripts/tracker.py` read this, not you.** |
+| **yesterday / today / tomorrow** | where this day sits, in one line each |
+| **§1 The story** | the idea in plain English with an analogy, before any code |
+| **§2 The map** | every part, what it answers, its `level` — the reading order |
+| **§3 Setup — run this** | every `mkdir`, `touch`, `uv add` today needs |
+| **§4 Build brief** | the file list, and which parts are yours to write (`TODO(me)`) |
+| **§5 The eval** | the test that must be able to **fail** (Principle 7) |
+| **§6 Request budget** | how many free-tier calls today costs (Principle 5) |
+| **§7 Traps** | the mistakes that eat an evening |
+| **§8 Verify before you code** | the live docs pages to check |
+| **§9 Say it in an interview** | one paragraph, spoken voice |
+| **§10 Done when** | pointer to `CHECKLIST.md` — defined by understanding, never by elapsed time |
 
 ---
 
-## The daily rhythm
+## About `legacy/`
 
-```bash
-./m status              # what's next?
-./m start 7             # marks Day 7 in-progress, prints its IDs
-./m scaffold 7          # creates days/day-07/lab/
-                        # ... read LESSON.md, run its Setup block, write the code ...
-./m check               # lint + offline tests. Free. No network.
-                        # ... tick the boxes in CHECKLIST.md ...
-./m done 7              # refuses if boxes are unticked or check is red;
-                        # otherwise commits and updates every tracker file
-```
+Plan v1.1.0 taught each day as a single `LESSON.md`. Every subject a day touched sat under one
+heading in one file, the files kept growing, and explanations were quietly trimmed to stop the page
+getting longer. Plan **v2.0.0** replaced that format with the hub-plus-`parts/` shape above.
 
-**You never hand-edit a status, an index row, a coverage table, or the changelog.** `./m done`
-owns all four. That is the whole point of building it on Day 0.
+The 91 v1.1.0 lessons were **moved, not deleted**, to
+[`../legacy/days/`](../legacy/README.md) on 2026-08-22. Days are being rewritten from Day 0 forward.
+
+- A day with `parts/` is on the current format. Read `LESSON.md`.
+- A day that exists only under `legacy/days/` **has not been written yet.** Its old lesson is
+  readable, but it has not been split, deepened, or checked, and its v1.1.0 prose still carries the
+  time estimates that Principle 16 removed. `./m start N` tells you which one you are looking at,
+  and `../docs/TRACKER.md` marks it 🗃️ legacy.
 
 ---
 
 ## Rules that apply to every single day
 
-From `CLAUDE.md` and the plan's Part 1. Not optional.
+From `../CLAUDE.md` and the plan's Part 1. Not optional.
 
 1. **No commit = day not done.** (Principle 1) — enforced by `./m done`.
 2. **Naked before framework.** If a concept has an `AG-` ID, you saw the raw version first.
@@ -112,38 +165,61 @@ From `CLAUDE.md` and the plan's Part 1. Not optional.
 
 ---
 
-## How a future session picks up where you left off
+## Which shell
 
-Everything is on disk. There is no hidden state.
+These docs are written for **Git Bash** on Windows (installed with Git). macOS and Linux users:
+everything works unchanged except the installer URLs.
+
+| Git Bash (used in these docs) | PowerShell |
+|---|---|
+| `mkdir -p a/b/c` | `New-Item -ItemType Directory -Force a/b/c` |
+| `touch f.py` | `if (-not (Test-Path f.py)) { New-Item -ItemType File f.py }` |
+| `cat > f <<'EOF' … EOF` | `@'…'@ \| Set-Content -Encoding utf8 f` |
+| `rm -rf folder` | `Remove-Item -Recurse -Force folder` |
+| `./m status` | `bash ./m status` |
+| `cmd1 && cmd2` | `cmd1; if ($?) { cmd2 }` |
+
+**`make` is not used anywhere in this project.** The `./m` script replaces it.
+
+---
+
+## The daily rhythm
 
 ```bash
-./m status                                   # the dashboard
-./m sync                                     # rebuild index+traceability from the day files
-./m check-ids                                # prove lessons and TRACEABILITY.md agree
-git log --oneline | head -20                 # what you actually committed
-grep -c '⬜' ../docs/TRACEABILITY.md          # IDs still open
+./m status         # where am I
+./m start 12       # open the hub, and list its parts
+./m parts 12       # just the sub-topic list
+./m scaffold 12    # create days/day-12/lab/
+# ... read the hub's §1 and §2, then every part in order, then implement every TODO(me) ...
+./m check          # ruff + offline pytest + the depth contract
+./m done 12        # refuses until the checklist is ticked and checks are green
 ```
 
-**The four files that carry state:**
+## Generating the days that aren't written yet
 
-| File | Carries |
-|---|---|
-| `days/day-NN/LESSON.md` frontmatter | `status`, `commit` |
-| `days/day-NN/CHECKLIST.md` | that day's tick-boxes |
-| `docs/CURRICULUM_INDEX.md` | the status column (derived — regenerate with `./m sync`) |
-| `docs/CHANGELOG_PLAN.md` | append-only history: completed days + plan amendments |
+`../docs/TRACKER.md` lists every day, its status, and how many sub-topic documents it has. To write
+the next one:
+
+```
+/day 12
+```
+
+That skill (`../.claude/skills/day/SKILL.md`) reads the plan, the index, the tracker, the existing
+days and the `legacy/` draft, and produces the hub, the `parts/` documents, the lab scaffold and the
+checklist in the format above. It ends by running `./m depth 12`, which is what stops a thin day
+from being called written.
 
 ---
 
 ## One honest caveat
 
-These docs were written on **2026-08-20** against the pins verified that day
-([`../docs/PINS.md`](../docs/PINS.md)) and master plan **v1.1.0**. Library APIs drift. Free-tier
-model rosters rotate faster than libraries do.
+The v1.1.0 lessons under `legacy/` were written on **2026-08-20** against the pins verified that day
+([`../docs/PINS.md`](../docs/PINS.md)). Library APIs drift. Free-tier model rosters rotate faster
+than libraries do.
 
-So **every lesson ends with "Verify before you code"** — the live docs page for the exact API it
-teaches. Check it. Ninety seconds, and it is the highest-value habit in the whole plan: Principle 13
-run daily instead of weekly.
+So **every hub ends with §8 "Verify before you code"** — the live docs page for the exact API it
+teaches. Check it. It is the highest-value habit in the whole plan: Principle 13 run daily instead
+of weekly.
 
-If you find real drift: **stop, log it in `docs/CHANGELOG_PLAN.md`, amend the plan**, *then* change
-code. That reflex is the actual deliverable of these 90 days.
+If you find real drift: **stop, log it in `../docs/CHANGELOG_PLAN.md`, amend the plan**, *then*
+change code. That reflex is the actual deliverable of these 90 days.

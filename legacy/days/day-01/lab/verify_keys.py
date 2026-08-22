@@ -7,10 +7,9 @@ Run:
 Budget: exactly 3 requests. Do not put this in a loop.
 """
 
-from openai import OpenAI
-
 from mandala.config import load_keys
 from mandala.models import PROVIDERS
+from openai import OpenAI
 
 KEYS = load_keys()
 

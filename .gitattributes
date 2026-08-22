@@ -1,0 +1,17 @@
+# The repository is authoritative about line endings, not anyone's personal git config.
+# A committed .gitattributes applies to every clone; core.autocrlf does not (part 1.2).
+# text=auto lets git detect text vs binary; eol=lf then forces LF in the working tree.
+* text=auto eol=lf
+
+# Named explicitly because breaking these is expensive and silent:
+# ./m is executed from disk, so a CRLF shebang gives "bad interpreter: /usr/bin/env^M".
+m      text eol=lf
+*.sh   text eol=lf
+*.py   text eol=lf
+*.md   text eol=lf
+
+# Binaries git should never touch.
+*.png  binary
+*.jpg  binary
+*.pdf  binary
+*.zip  binary

@@ -7,10 +7,9 @@ Run:
     uv run python days/day-02/lab/trigger_429.py
 """
 
-from openai import OpenAI, RateLimitError
-
 from mandala.config import load_keys
 from mandala.models import PROVIDERS
+from openai import OpenAI, RateLimitError
 
 provider = PROVIDERS["groq"]
 client = OpenAI(api_key=load_keys().groq, base_url=provider.base_url)

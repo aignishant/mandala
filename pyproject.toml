@@ -15,9 +15,18 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["src/mandala"]
 
+[tool.uv]
+# This repo lives inside a OneDrive-synced folder, and OneDrive's filesystem refuses hardlinks
+# ("os error 396: incompatible hardlinks"). uv hardlinks from its cache into .venv by default,
+# so every `uv run` would fail. Copying is slower and correct. Day 0 part 1.3 explains this.
+link-mode = "copy"
+
 [tool.ruff]
 line-length = 100
 target-version = "py312"
+# legacy/ is the archived v1.1.0 repo (see legacy/README.md) - kept verbatim, never linted.
+# days/*/lab is the learner's own scratch code; it is graded by reading, not by ruff.
+extend-exclude = ["legacy", "days/*/lab"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
@@ -30,7 +39,7 @@ exclude = ["**/*.md"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-q"
+addopts = "-q --strict-markers"
 markers = [
     "live: hits a real provider; costs free-tier quota; excluded from the default run",
     "cassette: replays a recorded response; free and offline",

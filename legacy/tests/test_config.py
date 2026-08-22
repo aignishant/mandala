@@ -1,9 +1,9 @@
 """Day-1 guardrails: keys fail loudly, and model pins are real."""
 
 import pytest
+from mandala.config import MissingKey, load_keys
 
 from mandala import models
-from mandala.config import MissingKey, load_keys
 
 
 def test_missing_key_fails_loudly(monkeypatch):
