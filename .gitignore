@@ -12,3 +12,6 @@ __pycache__/
 *.sqlite
 *.sqlite3
 .langgraph_api/
+
+# scratch files used while authoring commits
+.msg.tmp
